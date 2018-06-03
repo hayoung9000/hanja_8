@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.io.FileWriter"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="java.io.FileReader"%>
@@ -13,7 +14,23 @@
 <body>
 <%
 String file = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/score.txt";
+String file2 = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/cnt.txt";
+String file3 = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/wrong.txt";
+String hanja = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/hanja.txt";
+
+ArrayList<String> han = new ArrayList<String>();
+
+
 BufferedReader br = new BufferedReader(new FileReader(file));
+BufferedReader br2 = new BufferedReader(new FileReader(file2));
+BufferedReader br_hanja = new BufferedReader(new FileReader(hanja));
+
+String ja="";
+while((ja=br_hanja.readLine())!=null){
+	han.add(ja);
+}
+br_hanja.close();
+
 String str=br.readLine();
 br.close();
 int score=0;
@@ -22,7 +39,23 @@ score-=30;
 PrintWriter pw = new PrintWriter(new FileWriter(file));
 pw.println(score);
 pw.close();
-response.sendRedirect("game_form.jsp?send="+score);
+
+String c=br2.readLine();
+br2.close();
+int cnt=0;
+cnt=Integer.parseInt(c);
+
+PrintWriter pw3 = new PrintWriter(new FileWriter(file3,true));
+pw3.println(han.get(cnt));
+pw3.close();
+
+
+cnt++;
+PrintWriter pw2 = new PrintWriter(new FileWriter(file2));
+pw2.println(cnt);
+pw2.close();
+
+response.sendRedirect("game_form.jsp");
 %>
 </body>
 </html>

@@ -9,6 +9,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf8-">
 <title>Insert title here</title>
 <style>
+body{
+	background-image: url("image/hanji.jpg");
+}
 #score{
 	color:red;
 	font-size:80px;
@@ -42,16 +45,26 @@ a{
 <body>
 <%
 int score=0;
+int cnt=0;
 String file = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/hanja.txt";
 String file2 = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/score.txt";
+String file3 = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/cnt.txt";
 BufferedReader br = new BufferedReader(new FileReader(file));
 BufferedReader br2 = new BufferedReader(new FileReader(file));
 BufferedReader br_sc = new BufferedReader(new FileReader(file2));
+BufferedReader br_cnt = new BufferedReader(new FileReader(file3));
+String str_cnt=br_cnt.readLine();
+if(str_cnt!=null){
+	cnt=Integer.parseInt(str_cnt);
+}
+br_cnt.close();
 
 int r=0;
 String str = "";
 ArrayList<String> answer = new ArrayList<String>();
+ArrayList<String> hanja = new ArrayList<String>();
 while((str = br.readLine())!=null){
+	hanja.add(str);
 	String[] txtArr = str.split(",") ;
 	answer.add(txtArr[2]);
 }
@@ -61,12 +74,15 @@ String str_sc=br_sc.readLine();
 br_sc.close();
 score=Integer.parseInt(str_sc);
 
+
+
+if(cnt<answer.size()){
 %>
  <div id="score">
 	 	<%=score %>
 	 </div>
 <%
-while((str = br2.readLine()) != null) {
+	str=hanja.get(cnt);
 	 String[] txtArr = str.split(",") ;
 	 %>
 	 <div id="box">
@@ -102,8 +118,12 @@ while((str = br2.readLine()) != null) {
 		 <%}
 	 }
 	 %></div><%
-}
 br2.close();
+
+}
+else{
+	response.sendRedirect("game_end.jsp?score="+score);
+}
 %>
 </body>
 </html>

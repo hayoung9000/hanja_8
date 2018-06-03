@@ -13,7 +13,10 @@
 <body>
 <%
 String file = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/score.txt";
+String file2 = "D:/jsp_hanja-master/encoding/WebContent/WEB-INF/cnt.txt";
 BufferedReader br = new BufferedReader(new FileReader(file));
+BufferedReader br2 = new BufferedReader(new FileReader(file2));
+
 String str=br.readLine();
 br.close();
 int score=0;
@@ -22,7 +25,17 @@ score+=50;
 PrintWriter pw = new PrintWriter(new FileWriter(file));
 pw.println(score);
 pw.close();
-response.sendRedirect("game_form.jsp?send="+score);
+
+String c=br2.readLine();
+br2.close();
+int cnt=0;
+cnt=Integer.parseInt(c);
+cnt++;
+PrintWriter pw2 = new PrintWriter(new FileWriter(file2));
+pw2.println(cnt);
+pw2.close();
+
+response.sendRedirect("game_form.jsp");
 %>
 </body>
 </html>
